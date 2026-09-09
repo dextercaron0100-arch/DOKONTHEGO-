@@ -36,6 +36,10 @@ https://your-vercel-domain.vercel.app/api/payments/webhook
 
 The appointment flow creates a Supabase appointment, redirects the patient to Xendit hosted checkout, and confirms the appointment after a verified webhook.
 
+## Doctor portal setup
+
+Create each doctor in **Supabase Authentication → Users**, then copy that user UUID into the matching `doctors.auth_user_id` value. The Doctor Portal uses Supabase email/password sign-in and only returns appointments and medical records assigned to that doctor.
+
 ## Deploy to Vercel
 
 Import the GitHub repository into Vercel, add the variables from `.env.example`, and deploy. Run the Supabase SQL migration before testing appointment booking.

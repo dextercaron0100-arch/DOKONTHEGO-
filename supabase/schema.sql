@@ -15,6 +15,7 @@ create table if not exists services (
 
 create table if not exists doctors (
   id uuid primary key default gen_random_uuid(),
+  auth_user_id uuid unique,
   full_name text not null,
   specialty text not null,
   bio text,
@@ -23,6 +24,8 @@ create table if not exists doctors (
   is_active boolean not null default true,
   created_at timestamptz not null default now()
 );
+
+alter table doctors add column if not exists auth_user_id uuid unique;
 
 create table if not exists appointments (
   id uuid primary key default gen_random_uuid(),
@@ -45,6 +48,16 @@ create table if not exists appointments (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists medical_records (
+  id uuid primary key default gen_random_uuid(),
+  patient_name text not null,
+  doctor_id uuid not null references doctors(id),
+  appointment_id uuid references appointments(id),
+  record_type text not null default 'Consultation',
+  summary text not null,
+  created_at timestamptz not null default now()
+);
+
 create index if not exists appointments_schedule_idx on appointments (appointment_date, appointment_time);
 create index if not exists appointments_status_idx on appointments (status, payment_status);
 
@@ -61,6 +74,7 @@ on conflict (id) do nothing;
 alter table services enable row level security;
 alter table doctors enable row level security;
 alter table appointments enable row level security;
+alter table medical_records enable row level security;
 
 create policy "public can view active services" on services for select using (is_active = true);
 create policy "public can view active doctors" on doctors for select using (is_active = true);
