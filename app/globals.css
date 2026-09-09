@@ -19,6 +19,7 @@
 :root { --background: #f7fbff; --foreground: #082b6f; --border: #d5e1f1; --ring: #f39a1e; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+html { zoom: 1.5; }
 body { margin: 0; background: var(--background); font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif; }
 button, a { -webkit-tap-highlight-color: transparent; }
 
@@ -29,4 +30,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .scroll-reveal, .scroll-reveal-item { opacity: 1; transform: none; transition: none; }
+}
+@media (max-width: 767px) {
+  html { zoom: 1; }
 }
