@@ -22,8 +22,8 @@ export async function POST(request: Request) {
   const payload = {
     reference_id: appointment.appointment_number, session_type: 'PAY', mode: 'PAYMENT_LINK', amount, currency: 'PHP', country: 'PH', locale: 'en', capture_method: 'AUTOMATIC',
     customer: { reference_id: cleanReference(appointment.appointment_number), type: 'INDIVIDUAL', email: appointment.patient_email, mobile_number: normalizeMobile(appointment.patient_mobile), individual_detail: { given_names, surname } },
-    items: [{ reference_id: cleanReference(appointment.service_id), name: service?.name || 'Medical service', type: 'PHYSICAL_SERVICE', category: 'HEALTHCARE', net_unit_amount: amount, quantity: 1, description: `Dok On The Go appointment ${appointment.appointment_number}` }],
-    description: `Dok On The Go appointment ${appointment.appointment_number}`,
+    items: [{ reference_id: cleanReference(appointment.service_id), name: service?.name || 'Medical service', type: 'PHYSICAL_SERVICE', category: 'HEALTHCARE', net_unit_amount: amount, quantity: 1, description: `Doktor On The Go appointment ${appointment.appointment_number}` }],
+    description: `Doktor On The Go appointment ${appointment.appointment_number}`,
     metadata: { appointment_id: appointment.id, appointment_number: appointment.appointment_number },
     success_return_url: `${appUrl}/payment/success?appointment=${encodeURIComponent(appointment.appointment_number)}`,
     cancel_return_url: `${appUrl}/payment/failed?appointment=${encodeURIComponent(appointment.appointment_number)}`,
