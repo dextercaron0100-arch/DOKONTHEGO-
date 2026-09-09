@@ -33,4 +33,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 @media (max-width: 767px) {
   html { zoom: 1; }
+  body { overflow-x: hidden; }
+  main { overflow-x: clip; }
+  main > section { scroll-margin-top: 5rem; }
+  #top { padding-top: 1rem; }
+  #top h1 { font-size: clamp(2rem, 9vw, 2.6rem); }
+  #top img { max-width: 100%; }
+  #doctors article { grid-template-columns: 84px minmax(0, 1fr); gap: .75rem; }
+  #doctors article img { min-height: 7rem; }
+  #doctors article p { overflow-wrap: anywhere; }
+  #book { overflow: hidden; }
+  #book > div:last-child { transform: scale(.88); transform-origin: center; }
+  footer { overflow: hidden; }
 }
