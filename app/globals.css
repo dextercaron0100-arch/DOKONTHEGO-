@@ -16,8 +16,17 @@
   --radius-2xl: 2rem;
 }
 
-:root { --background: #fbfaf7; --foreground: #142b2b; --border: #dfe9e4; --ring: #2b7a6c; }
+:root { --background: #f7fbff; --foreground: #082b6f; --border: #d5e1f1; --ring: #f39a1e; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--background); font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif; }
 button, a { -webkit-tap-highlight-color: transparent; }
+
+.scroll-reveal { opacity: 0; transform: translateY(24px); transition: opacity 700ms ease, transform 700ms cubic-bezier(.22, 1, .36, 1); }
+.scroll-reveal.is-visible { opacity: 1; transform: translateY(0); }
+.scroll-reveal-item { opacity: 0; transform: translateY(16px); transition: opacity 600ms ease var(--reveal-delay, 0ms), transform 600ms cubic-bezier(.22, 1, .36, 1) var(--reveal-delay, 0ms); }
+.scroll-reveal.is-visible .scroll-reveal-item { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .scroll-reveal, .scroll-reveal-item { opacity: 1; transform: none; transition: none; }
+}

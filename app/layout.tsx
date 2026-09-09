@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Dok On The Go — Healthcare when you need it',
-  description: 'Convenient, secure healthcare consultations with verified medical professionals.',
+  title: 'Doktor On The Go — Medical Health Services',
+  description: 'Convenient, secure medical health services with verified professionals.',
 };
 
 export default function RootLayout({
