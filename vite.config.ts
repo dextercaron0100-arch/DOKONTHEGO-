@@ -1,4 +1,5 @@
-import tailwindcss from '@tailwindcss/postcss';
+import tailwindcss from '@tailwindcss/vite';
+import { nitro } from 'nitro/vite';
 import vinext from 'vinext';
 import { defineConfig } from 'vite';
 
@@ -10,6 +11,7 @@ const r2 = null;
 
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === 'seatbelt';
+const isVercelBuild = process.env.VERCEL === '1' || process.env.NITRO_PRESET === 'vercel';
 
 const localBindingConfig = {
   main: 'vinext/server/fetch-handler',
@@ -44,16 +46,18 @@ export default defineConfig(async () => {
   const { cloudflare } = await import('@cloudflare/vite-plugin');
 
   return {
-    css: { postcss: { plugins: [tailwindcss()] } },
     server: isCodexSeatbeltSandbox
       ? { watch: { useFsEvents: false, usePolling: true } }
       : undefined,
     plugins: [
       vinext(),
-      cloudflare({
-        viteEnvironment: { name: 'rsc', childEnvironments: ['ssr'] },
-        config: localBindingConfig,
-      }),
+      tailwindcss(),
+      isVercelBuild
+        ? nitro()
+        : cloudflare({
+            viteEnvironment: { name: 'rsc', childEnvironments: ['ssr'] },
+            config: localBindingConfig,
+          }),
     ],
   };
 });
