@@ -1,31 +1,132 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ArrowRight, CalendarDays, Check, ChevronDown, Clock3, FileCheck2, FileText, HeartPulse, LockKeyhole, Menu, MessageCircle, Pill, ShieldCheck, Stethoscope, UserRound, Video, X, Zap } from 'lucide-react';
-import { Scissors, Ribbon, Brain, Bug, Moon, Activity, Dumbbell, Baby, Sparkles, Droplets, Footprints, Bone, Ear, HeartHandshake, Syringe, Scan, Skull, Apple, Smile, Leaf, PawPrint } from 'lucide-react';
+import {
+  ArrowRight,
+  CalendarDays,
+  Check,
+  ChevronDown,
+  Clock3,
+  FileCheck2,
+  FileText,
+  HeartPulse,
+  LockKeyhole,
+  Menu,
+  MessageCircle,
+  Pill,
+  ShieldCheck,
+  Stethoscope,
+  UserRound,
+  Video,
+  X,
+  Zap,
+} from 'lucide-react';
+import {
+  Scissors,
+  Ribbon,
+  Brain,
+  Bug,
+  Moon,
+  Activity,
+  Dumbbell,
+  Baby,
+  Sparkles,
+  Droplets,
+  Footprints,
+  Bone,
+  Ear,
+  HeartHandshake,
+  Syringe,
+  Scan,
+  Skull,
+  Apple,
+  Smile,
+  Leaf,
+  PawPrint,
+} from 'lucide-react';
 import { doctors } from '@/lib/doctor-booking';
 import { conditionInformation } from '@/lib/conditions';
 import { ConditionCard } from '@/components/condition-card';
+import { InsightCard } from '@/components/insight-card';
 
 const services = [
-  ['Online Medical Consultation', 'Talk to a doctor from the comfort of your home.', Video],
-  ['Medical Certificates', 'Get school, work, or travel certificates.', FileText],
+  [
+    'Online Medical Consultation',
+    'Talk to a doctor from the comfort of your home.',
+    Video,
+  ],
+  [
+    'Medical Certificates',
+    'Get school, work, or travel certificates.',
+    FileText,
+  ],
   ['Laboratory Requests', 'Request lab tests and get referrals.', Pill],
-  ['Home Service / On-The-Go Checkup', 'Medical care in the comfort of your home.', HeartPulse],
-  ['Medical Summary', 'Access your consultation history and records.', FileCheck2],
-  ['Fit-to-Work / Health Clearance', 'Get cleared and stay work-ready.', ShieldCheck],
+  [
+    'Home Service / On-The-Go Checkup',
+    'Medical care in the comfort of your home.',
+    HeartPulse,
+  ],
+  [
+    'Medical Summary',
+    'Access your consultation history and records.',
+    FileCheck2,
+  ],
+  [
+    'Fit-to-Work / Health Clearance',
+    'Get cleared and stay work-ready.',
+    ShieldCheck,
+  ],
+];
+
+const healthInsights: [string, string, (typeof doctors)[number], string][] = [
+  [
+    '5 Simple Habits for a Healthier You',
+    'Wellness',
+    doctors[0],
+    'Wellness article featuring Dr. Maria Jenina Aguado-De Chavez',
+  ],
+  [
+    'Nutrition Tips for a Stronger Immune System',
+    'Nutrition',
+    doctors[1],
+    'Nutrition article featuring Dr. Mariel C. Enverga',
+  ],
+  [
+    'Understanding Your Blood Pressure',
+    'General Health',
+    doctors[2],
+    'General health article featuring Dr. Evaliza Therese D. Villoria',
+  ],
+  [
+    'The Importance of Quality Sleep',
+    'Mental Health',
+    doctors[3],
+    'Mental health article featuring Dr. Rossel Anjelo A. Ambal',
+  ],
 ];
 
 const specialties = [
-  ['Primary Care & General Medicine', Stethoscope, 'bg-[#fff4df] text-[#f39a1e]'],
-  ["Obstetrics and Gynecology & Women’s Health", HeartPulse, 'bg-[#fff0f4] text-[#e45d83]'],
+  [
+    'Primary Care & General Medicine',
+    Stethoscope,
+    'bg-[#fff4df] text-[#f39a1e]',
+  ],
+  [
+    'Obstetrics and Gynecology & Women’s Health',
+    HeartPulse,
+    'bg-[#fff0f4] text-[#e45d83]',
+  ],
   ['Pediatrics', UserRound, 'bg-[#fff2dc] text-[#f39a1e]'],
   ['Diabetes & Endocrinology', Pill, 'bg-[#e9f1ff] text-[#315cc9]'],
   ['Eye & Vision Doctor', ShieldCheck, 'bg-[#eef3ff] text-[#5675d8]'],
   ['Heart & Cardiology', HeartPulse, 'bg-[#fff0f4] text-[#e45d83]'],
   ['Skin & Dermatology', Zap, 'bg-[#fff4df] text-[#f39a1e]'],
   ['Lungs, Chest & Pulmonology', Video, 'bg-[#e4fbf7] text-[#18a99c]'],
-  ['Stomach, Digestion & Gastroenterology', Pill, 'bg-[#eff9d9] text-[#71a91c]'],
+  [
+    'Stomach, Digestion & Gastroenterology',
+    Pill,
+    'bg-[#eff9d9] text-[#71a91c]',
+  ],
   ['Ears, Nose & Throat', ShieldCheck, 'bg-[#f2edff] text-[#9066d7]'],
   ['Kidney & Urine', HeartPulse, 'bg-[#e9f1ff] text-[#315cc9]'],
   ['Brain & Nerves', UserRound, 'bg-[#f2edff] text-[#9066d7]'],
@@ -58,9 +159,21 @@ const specialties = [
 ] as const;
 
 const testimonials = [
-  ['Andrea Cruz', '“Very convenient and professional. I was able to get my medical certificate the same day. Highly recommended!”', 'March 12, 2024'],
-  ['Mark Dela Rosa', '“The doctors were kind, patient, and really listened to my concerns. Great experience!”', 'February 28, 2024'],
-  ['Julie Ann Reyes', '“So easy to use! I love that I can consult a doctor without leaving my house.”', 'January 15, 2024'],
+  [
+    'Andrea Cruz',
+    '“Very convenient and professional. I was able to get my medical certificate the same day. Highly recommended!”',
+    'March 12, 2024',
+  ],
+  [
+    'Mark Dela Rosa',
+    '“The doctors were kind, patient, and really listened to my concerns. Great experience!”',
+    'February 28, 2024',
+  ],
+  [
+    'Julie Ann Reyes',
+    '“So easy to use! I love that I can consult a doctor without leaving my house.”',
+    'January 15, 2024',
+  ],
 ];
 
 export default function Home() {
@@ -69,55 +182,920 @@ export default function Home() {
   const [doctorSearch, setDoctorSearch] = useState('');
   const [showAllDoctors, setShowAllDoctors] = useState(false);
   const [showAllSpecialties, setShowAllSpecialties] = useState(false);
-  const notify = (message: string) => { setToast(message); window.setTimeout(() => setToast(''), 2800); };
-  const filteredDoctors = doctors.filter((doctor) => `${doctor.name} ${doctor.specialty}`.toLowerCase().includes(doctorSearch.trim().toLowerCase()));
-  const visibleDoctors = doctorSearch.trim() || showAllDoctors ? filteredDoctors : filteredDoctors.slice(0, 6);
+  const notify = (message: string) => {
+    setToast(message);
+    window.setTimeout(() => setToast(''), 2800);
+  };
+  const filteredDoctors = doctors.filter((doctor) =>
+    `${doctor.name} ${doctor.specialty}`
+      .toLowerCase()
+      .includes(doctorSearch.trim().toLowerCase()),
+  );
+  const visibleDoctors =
+    doctorSearch.trim() || showAllDoctors
+      ? filteredDoctors
+      : filteredDoctors.slice(0, 6);
   useEffect(() => {
-    const sections = Array.from(document.querySelectorAll<HTMLElement>('main > section'));
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>('main > section'),
+    );
     sections.forEach((section) => {
       section.classList.add('scroll-reveal');
-      section.querySelectorAll<HTMLElement>(':scope .grid > *').forEach((item, index) => {
-        item.classList.add('scroll-reveal-item');
-        item.style.setProperty('--reveal-delay', `${Math.min(index * 70, 280)}ms`);
-      });
+      section
+        .querySelectorAll<HTMLElement>(':scope .grid > *')
+        .forEach((item, index) => {
+          item.classList.add('scroll-reveal-item');
+          item.style.setProperty(
+            '--reveal-delay',
+            `${Math.min(index * 70, 280)}ms`,
+          );
+        });
     });
-    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-      if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
-    }), { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    const observer = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        }),
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    );
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, []);
   return (
     <main className="min-h-screen bg-white text-[#092455]">
-      {toast && <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#092455] px-5 py-3 text-sm font-semibold text-white shadow-xl">{toast}</div>}
-      <header className="sticky top-0 z-40 border-b border-[#d5e1f1] bg-white/95 backdrop-blur-xl"><div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 lg:px-6">
-        <a href="#top" className="flex items-center gap-2.5"><span className="grid h-9 w-9 place-items-center rounded-xl bg-[#f39a1e] text-white shadow-[0_5px_15px_rgb(21_148_235/22%)]"><HeartPulse size={19} /></span><span className="leading-none"><strong className="block text-[15px] tracking-[-0.04em]">Doktor On The Go</strong><small className="text-[8px] font-semibold tracking-[0.02em] text-[#f39a1e]">Healthcare Anywhere, Anytime</small></span></a>
-        <nav className="hidden items-center gap-7 text-[11px] font-semibold text-[#3d557b] md:flex"><a href="#top" className="text-[#082b6f] underline decoration-2 underline-offset-8">Home</a><a href="#services">Services</a><a href="#permits">Permits</a><a href="#doctors">Doctors</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
-        <div className="hidden md:block"><a href="/appointment" className="rounded-full bg-[#f39a1e] px-5 py-2.5 text-[11px] font-bold text-white shadow-[0_7px_18px_rgb(13_139_230/24%)] hover:bg-[#082b6f]">Book Appointment</a></div>
-        <button onClick={() => setMenuOpen(!menuOpen)} className="rounded-lg p-2 md:hidden" aria-label="Open menu">{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>
-      </div>{menuOpen && <div className="border-t border-[#d5e1f1] px-5 py-4 md:hidden"><nav className="grid gap-3 text-sm font-semibold"><a href="#services">Services</a><a href="#doctors">Doctors</a><a href="#about">About</a><a href="/appointment" className="rounded-full bg-[#f39a1e] px-4 py-3 text-center text-white">Book Appointment</a></nav></div>}</header>
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#092455] px-5 py-3 text-sm font-semibold text-white shadow-xl">
+          {toast}
+        </div>
+      )}
+      <header className="sticky top-0 z-40 border-b border-[#d5e1f1] bg-white/95 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 lg:px-6">
+          <a href="#top" className="flex items-center gap-2.5">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#f39a1e] text-white shadow-[0_5px_15px_rgb(21_148_235/22%)]">
+              <HeartPulse size={19} />
+            </span>
+            <span className="leading-none">
+              <strong className="block text-[15px] tracking-[-0.04em]">
+                Doktor On The Go
+              </strong>
+              <small className="text-[8px] font-semibold tracking-[0.02em] text-[#f39a1e]">
+                Healthcare Anywhere, Anytime
+              </small>
+            </span>
+          </a>
+          <nav className="hidden items-center gap-7 text-[11px] font-semibold text-[#3d557b] md:flex">
+            <a
+              href="#top"
+              className="text-[#082b6f] underline decoration-2 underline-offset-8"
+            >
+              Home
+            </a>
+            <a href="#services">Services</a>
+            <a href="#permits">Permits</a>
+            <a href="#doctors">Doctors</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </nav>
+          <div className="hidden md:block">
+            <a
+              href="/appointment"
+              className="rounded-full bg-[#f39a1e] px-5 py-2.5 text-[11px] font-bold text-white shadow-[0_7px_18px_rgb(13_139_230/24%)] hover:bg-[#082b6f]"
+            >
+              Book Appointment
+            </a>
+          </div>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="rounded-lg p-2 md:hidden"
+            aria-label="Open menu"
+          >
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+        {menuOpen && (
+          <div className="border-t border-[#d5e1f1] px-5 py-4 md:hidden">
+            <nav className="grid gap-3 text-sm font-semibold">
+              <a href="#services">Services</a>
+              <a href="#doctors">Doctors</a>
+              <a href="#about">About</a>
+              <a
+                href="/appointment"
+                className="rounded-full bg-[#f39a1e] px-4 py-3 text-center text-white"
+              >
+                Book Appointment
+              </a>
+            </nav>
+          </div>
+        )}
+      </header>
 
-      <section id="top" className="relative overflow-hidden bg-gradient-to-b from-[#f7fbff] to-white"><div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-12 pt-12 lg:grid-cols-[.95fr_1.05fr] lg:px-6 lg:pb-16 lg:pt-16"><div><p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#f39a1e]">Your health, our priority</p><h1 className="mt-3 max-w-xl text-4xl font-extrabold leading-[1.07] tracking-[-0.05em] sm:text-5xl">Fast, reliable, and affordable healthcare consultation <span className="text-[#082b6f]">on the go</span></h1><p className="mt-4 max-w-lg text-sm leading-6 text-[#445b7f]">Get professional medical care from licensed doctors, anytime, anywhere. Safe, secure, and trusted by thousands of Filipinos.</p><div className="mt-6 flex flex-wrap gap-3"><a href="/appointment" className="inline-flex items-center gap-2 rounded-full bg-[#f39a1e] px-5 py-3 text-xs font-bold text-white shadow-[0_8px_20px_rgb(13_139_230/22%)]">Book Appointment <ArrowRight size={14} /></a><a href="#services" className="inline-flex items-center gap-2 rounded-full border border-[#f39a1e] px-5 py-3 text-xs font-bold text-[#082b6f]">View Services</a></div><div className="mt-7 grid max-w-lg grid-cols-3 gap-2">{[['298,000+', 'Happy Patients', UserRound], ['30+', 'Licensed Doctors', Stethoscope], ['1000+', 'Online Consultations', Video]].map(([value, label, Icon]) => <div key={String(label)} className="rounded-xl border border-[#f3d39e] bg-white px-3 py-3 shadow-[0_5px_18px_rgb(25_121_194/5%)]"><Icon size={16} className="text-[#f39a1e]" /><strong className="mt-2 block text-sm">{value === '298,000+' ? <a href="https://www.facebook.com/dotgph/followers/" target="_blank" rel="noreferrer" className="hover:underline">{value}</a> : value}</strong><span className="text-[9px] text-[#667aa0]">{label}</span></div>)}</div></div><div className="relative mx-auto w-full max-w-[520px]"><div className="absolute -right-10 top-4 h-52 w-52 rounded-full bg-[#d9f1ff]" /><div className="absolute -bottom-8 left-0 h-32 w-32 rounded-full bg-[#e4f6ff]" /><div className="relative overflow-hidden rounded-[32px] rounded-br-[90px] border-[8px] border-white bg-[#e7f1fc] shadow-[0_25px_60px_rgb(24_116_183/17%)]"><img src="/doctor-team-hero-71a83648.png" alt="Doktor On The Go medical team" className="h-[370px] w-full object-cover object-center sm:h-[430px]" /><div className="absolute left-5 top-5 rounded-2xl bg-white/90 px-3 py-2 text-[10px] font-bold text-[#082b6f] shadow-lg"><ShieldCheck size={16} className="mb-1" />Trusted, licensed<br />Filipino doctors</div><div className="absolute bottom-4 left-4 rounded-2xl bg-white/92 px-4 py-3 text-xs font-bold shadow-lg"><span className="text-[#f39a1e]">Healthcare</span><br />Anytime, Anywhere</div></div></div></div></section>
+      <section
+        id="top"
+        className="relative overflow-hidden bg-gradient-to-b from-[#f7fbff] to-white"
+      >
+        <img
+          src="/hospital-background.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-right opacity-[0.08]"
+        />
+        <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-10 px-5 pb-12 pt-12 lg:grid-cols-[.95fr_1.05fr] lg:px-6 lg:pb-16 lg:pt-16">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#f39a1e]">
+              Your health, our priority
+            </p>
+            <h1 className="mt-3 max-w-xl text-4xl font-extrabold leading-[1.07] tracking-[-0.05em] sm:text-5xl">
+              Fast, reliable, and affordable healthcare consultation{' '}
+              <span className="text-[#082b6f]">on the go</span>
+            </h1>
+            <p className="mt-4 max-w-lg text-sm leading-6 text-[#445b7f]">
+              Get professional medical care from licensed doctors, anytime,
+              anywhere. Safe, secure, and trusted by thousands of Filipinos.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="/appointment"
+                className="inline-flex items-center gap-2 rounded-full bg-[#f39a1e] px-5 py-3 text-xs font-bold text-white shadow-[0_8px_20px_rgb(13_139_230/22%)]"
+              >
+                Book Appointment <ArrowRight size={14} />
+              </a>
+              <a
+                href="#services"
+                className="inline-flex items-center gap-2 rounded-full border border-[#f39a1e] px-5 py-3 text-xs font-bold text-[#082b6f]"
+              >
+                View Services
+              </a>
+            </div>
+            <div className="mt-7 grid max-w-lg grid-cols-3 gap-2">
+              {[
+                ['298,000+', 'Happy Patients', UserRound],
+                ['30+', 'Licensed Doctors', Stethoscope],
+                ['1000+', 'Online Consultations', Video],
+              ].map(([value, label, Icon]) => (
+                <div
+                  key={String(label)}
+                  className="rounded-xl border border-[#f3d39e] bg-white px-3 py-3 shadow-[0_5px_18px_rgb(25_121_194/5%)]"
+                >
+                  <Icon size={16} className="text-[#f39a1e]" />
+                  <strong className="mt-2 block text-sm">
+                    {value === '298,000+' ? (
+                      <a
+                        href="https://www.facebook.com/dotgph/followers/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover:underline"
+                      >
+                        {value}
+                      </a>
+                    ) : (
+                      value
+                    )}
+                  </strong>
+                  <span className="text-[9px] text-[#667aa0]">{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="relative mx-auto w-full max-w-[520px]">
+            <div className="absolute -right-10 top-4 h-52 w-52 rounded-full bg-[#d9f1ff]" />
+            <div className="absolute -bottom-8 left-0 h-32 w-32 rounded-full bg-[#e4f6ff]" />
+            <div className="relative overflow-hidden rounded-[32px] rounded-br-[90px] border-[8px] border-white bg-[#e7f1fc] shadow-[0_25px_60px_rgb(24_116_183/17%)]">
+              <img
+                src="/doctor-team-hero-71a83648.png"
+                alt="Doktor On The Go medical team"
+                className="h-[370px] w-full object-cover object-center sm:h-[430px]"
+              />
+              <div className="absolute left-5 top-5 rounded-2xl bg-white/90 px-3 py-2 text-[10px] font-bold text-[#082b6f] shadow-lg">
+                <ShieldCheck size={16} className="mb-1" />
+                Trusted, licensed
+                <br />
+                Filipino doctors
+              </div>
+              <div className="absolute bottom-4 left-4 rounded-2xl bg-white/92 px-4 py-3 text-xs font-bold shadow-lg">
+                <span className="text-[#f39a1e]">Healthcare</span>
+                <br />
+                Anytime, Anywhere
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <section id="how-it-works" className="bg-[#f7fbff] py-16"><div className="mx-auto max-w-6xl px-5 lg:px-6"><div className="mx-auto max-w-xl text-center"><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#f39a1e]">Simple, supportive care</p><h2 className="mt-2 text-3xl font-extrabold tracking-[-0.04em] text-[#082b6f]">How It Works</h2><p className="mt-2 text-sm leading-6 text-[#667aa0]">Get the care you need in three easy steps, from booking to follow-up.</p></div><div className="mt-9 grid gap-4 md:grid-cols-3"><article className="group relative rounded-[26px] border border-[#d5e1f1] bg-white p-6 shadow-[0_14px_34px_rgb(8_43_111/6%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"><div className="flex items-start justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#f39a1e] text-white shadow-[0_8px_18px_rgb(243_154_30/25%)]"><CalendarDays size={22} /></span><span className="text-4xl font-extrabold leading-none text-[#dceaf7]">01</span></div><h3 className="mt-8 text-base font-extrabold text-[#082b6f]">Book an appointment</h3><p className="mt-2 text-xs leading-5 text-[#667aa0]">Choose your preferred date and time. It only takes a few minutes.</p><div className="mt-6 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.14em] text-[#f39a1e]">Start your care journey <ArrowRight size={13} /></div><ArrowRight className="absolute -right-3 top-1/2 z-10 hidden text-[#f39a1e] md:block" size={22} /></article><article className="group relative rounded-[26px] border border-[#d5e1f1] bg-white p-6 shadow-[0_14px_34px_rgb(8_43_111/6%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"><div className="flex items-start justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#f39a1e] text-white shadow-[0_8px_18px_rgb(243_154_30/25%)]"><UserRound size={22} /></span><span className="text-4xl font-extrabold leading-none text-[#dceaf7]">02</span></div><h3 className="mt-8 text-base font-extrabold text-[#082b6f]">Consult with a doctor</h3><p className="mt-2 text-xs leading-5 text-[#667aa0]">Talk to a licensed doctor via video, voice, or chat — from anywhere.</p><div className="mt-6 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.14em] text-[#f39a1e]">Get expert guidance <ArrowRight size={13} /></div><ArrowRight className="absolute -right-3 top-1/2 z-10 hidden text-[#f39a1e] md:block" size={22} /></article><article className="group relative rounded-[26px] border border-[#d5e1f1] bg-white p-6 shadow-[0_14px_34px_rgb(8_43_111/6%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"><div className="flex items-start justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#f39a1e] text-white shadow-[0_8px_18px_rgb(243_154_30/25%)]"><FileText size={22} /></span><span className="text-4xl font-extrabold leading-none text-[#dceaf7]">03</span></div><h3 className="mt-8 text-base font-extrabold text-[#082b6f]">Receive documents / follow-up</h3><p className="mt-2 text-xs leading-5 text-[#667aa0]">Get your medical certificate, prescription, or follow-up care digitally and hassle-free.</p><div className="mt-6 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.14em] text-[#f39a1e]">Stay on track <Check size={13} /></div></article></div></div></section>
+      <section id="how-it-works" className="relative isolate bg-[#f7fbff] py-16">
+        <img
+          src="/hospital-background.png"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-[0.10]"
+        />
+        <div className="relative z-10 mx-auto max-w-6xl px-5 lg:px-6">
+          <div className="mx-auto max-w-xl text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#f39a1e]">
+              Simple, supportive care
+            </p>
+            <h2 className="mt-2 text-3xl font-extrabold tracking-[-0.04em] text-[#082b6f]">
+              How It Works
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-[#667aa0]">
+              Get the care you need in three easy steps, from booking to
+              follow-up.
+            </p>
+          </div>
+          <div className="mt-9 grid gap-4 md:grid-cols-3">
+            <article className="group relative rounded-[26px] border border-[#d5e1f1] bg-white p-6 shadow-[0_14px_34px_rgb(8_43_111/6%)] transition hover:-translate-y-1 hover:border-[#f4b85a]">
+              <div className="flex items-start justify-between">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#f39a1e] text-white shadow-[0_8px_18px_rgb(243_154_30/25%)]">
+                  <CalendarDays size={22} />
+                </span>
+                <span className="text-4xl font-extrabold leading-none text-[#dceaf7]">
+                  01
+                </span>
+              </div>
+              <h3 className="mt-8 text-base font-extrabold text-[#082b6f]">
+                Book an appointment
+              </h3>
+              <p className="mt-2 text-xs leading-5 text-[#667aa0]">
+                Choose your preferred date and time. It only takes a few
+                minutes.
+              </p>
+              <div className="mt-6 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.14em] text-[#f39a1e]">
+                Start your care journey <ArrowRight size={13} />
+              </div>
+              <ArrowRight
+                className="absolute -right-3 top-1/2 z-10 hidden text-[#f39a1e] md:block"
+                size={22}
+              />
+            </article>
+            <article className="group relative rounded-[26px] border border-[#d5e1f1] bg-white p-6 shadow-[0_14px_34px_rgb(8_43_111/6%)] transition hover:-translate-y-1 hover:border-[#f4b85a]">
+              <div className="flex items-start justify-between">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#f39a1e] text-white shadow-[0_8px_18px_rgb(243_154_30/25%)]">
+                  <UserRound size={22} />
+                </span>
+                <span className="text-4xl font-extrabold leading-none text-[#dceaf7]">
+                  02
+                </span>
+              </div>
+              <h3 className="mt-8 text-base font-extrabold text-[#082b6f]">
+                Consult with a doctor
+              </h3>
+              <p className="mt-2 text-xs leading-5 text-[#667aa0]">
+                Talk to a licensed doctor via video, voice, or chat — from
+                anywhere.
+              </p>
+              <div className="mt-6 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.14em] text-[#f39a1e]">
+                Get expert guidance <ArrowRight size={13} />
+              </div>
+              <ArrowRight
+                className="absolute -right-3 top-1/2 z-10 hidden text-[#f39a1e] md:block"
+                size={22}
+              />
+            </article>
+            <article className="group relative rounded-[26px] border border-[#d5e1f1] bg-white p-6 shadow-[0_14px_34px_rgb(8_43_111/6%)] transition hover:-translate-y-1 hover:border-[#f4b85a]">
+              <div className="flex items-start justify-between">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#f39a1e] text-white shadow-[0_8px_18px_rgb(243_154_30/25%)]">
+                  <FileText size={22} />
+                </span>
+                <span className="text-4xl font-extrabold leading-none text-[#dceaf7]">
+                  03
+                </span>
+              </div>
+              <h3 className="mt-8 text-base font-extrabold text-[#082b6f]">
+                Receive documents / follow-up
+              </h3>
+              <p className="mt-2 text-xs leading-5 text-[#667aa0]">
+                Get your medical certificate, prescription, or follow-up care
+                digitally and hassle-free.
+              </p>
+              <div className="mt-6 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.14em] text-[#f39a1e]">
+                Stay on track <Check size={13} />
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
 
-      <section id="about" className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-14 lg:grid-cols-[1.05fr_.95fr] lg:px-6"><div><h2 className="text-2xl font-extrabold tracking-[-0.03em]">Why Choose Doktor On The Go?</h2><p className="mt-2 max-w-md text-xs leading-5 text-[#667aa0]">Quality healthcare should be simple, accessible, and made for your everyday life. Here&apos;s what makes us different.</p><div className="mt-6 grid gap-3 sm:grid-cols-3">{[['Fast', 'Get prompt medical attention without long waits.', Zap], ['Reliable', 'Consult with licensed and experienced doctors.', ShieldCheck], ['Affordable', 'Quality healthcare that fits your budget.', Pill]].map(([title, copy, Icon]) => <div key={String(title)} className="rounded-xl border border-[#d5e1f1] p-4"><span className="grid h-8 w-8 place-items-center rounded-full bg-[#f39a1e] text-white"><Icon size={15} /></span><h3 className="mt-3 text-xs font-bold">{title}</h3><p className="mt-1 text-[10px] leading-4 text-[#667aa0]">{copy}</p></div>)}</div></div><div className="overflow-hidden rounded-[28px] rounded-bl-[72px] bg-[#e7f1fc]"><img src="/filipino-doctor-patient.png" alt="Doctor talking with a patient" className="h-64 w-full object-cover" /></div></section>
+      <section
+        id="about"
+        className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-14 lg:grid-cols-[1.05fr_.95fr] lg:px-6"
+      >
+        <div>
+          <h2 className="text-2xl font-extrabold tracking-[-0.03em]">
+            Why Choose Doktor On The Go?
+          </h2>
+          <p className="mt-2 max-w-md text-xs leading-5 text-[#667aa0]">
+            Quality healthcare should be simple, accessible, and made for your
+            everyday life. Here&apos;s what makes us different.
+          </p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            {[
+              ['Fast', 'Get prompt medical attention without long waits.', Zap],
+              [
+                'Reliable',
+                'Consult with licensed and experienced doctors.',
+                ShieldCheck,
+              ],
+              ['Affordable', 'Quality healthcare that fits your budget.', Pill],
+            ].map(([title, copy, Icon]) => (
+              <div
+                key={String(title)}
+                className="rounded-xl border border-[#d5e1f1] p-4"
+              >
+                <span className="grid h-8 w-8 place-items-center rounded-full bg-[#f39a1e] text-white">
+                  <Icon size={15} />
+                </span>
+                <h3 className="mt-3 text-xs font-bold">{title}</h3>
+                <p className="mt-1 text-[10px] leading-4 text-[#667aa0]">
+                  {copy}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="overflow-hidden rounded-[28px] rounded-bl-[72px] bg-[#e7f1fc]">
+          <img
+            src="/filipino-doctor-patient.png"
+            alt="Doctor talking with a patient"
+            className="h-64 w-full object-cover"
+          />
+        </div>
+      </section>
 
-      <section id="services" className="bg-[#f7fbff] py-14"><div className="mx-auto max-w-6xl px-5 lg:px-6"><div className="text-center"><h2 className="text-2xl font-extrabold tracking-[-0.03em]">Our Services</h2><p className="mt-1 text-xs text-[#667aa0]">Comprehensive healthcare services, designed for your convenience.</p></div><div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">{services.map(([title, copy, Icon]) => <button key={String(title)} onClick={() => notify(`${title} selected.`)} className="group rounded-2xl border border-[#dfedf9] bg-white p-4 text-left shadow-[0_7px_18px_rgb(24_116_183/4%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"><span className="grid h-10 w-10 place-items-center rounded-full bg-[#fff4df] text-[#f39a1e] group-hover:bg-[#f39a1e] group-hover:text-white"><Icon size={19} /></span><h3 className="mt-4 text-[11px] font-extrabold leading-4">{title}</h3><p className="mt-1 text-[9px] leading-4 text-[#667aa0]">{copy}</p></button>)}</div><div className="mt-6 grid items-center gap-7 overflow-hidden rounded-[26px] bg-gradient-to-r from-[#e7f1fc] to-[#f5fbff] p-5 sm:grid-cols-[.55fr_1fr_auto]"><img src="/filipino-doctor-team.png" alt="Medical director" className="mx-auto h-28 w-28 rounded-full object-cover" /><div><p className="text-sm leading-5 text-[#082b6f]">“Your health matters, and you&apos;re not alone. We&apos;re here to make quality healthcare accessible to everyone, wherever you are.”</p><strong className="mt-2 block text-[11px]">Dr. Maria Santos</strong><span className="text-[9px] text-[#667aa0]">Medical Director, Doktor On The Go</span></div><a href="/appointment" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f39a1e] px-5 py-3 text-[10px] font-bold text-white">Book Appointment <ArrowRight size={13} /></a></div></div></section>
+      <section id="services" className="bg-[#f7fbff] py-14">
+        <div className="mx-auto max-w-6xl px-5 lg:px-6">
+          <div className="text-center">
+            <h2 className="text-2xl font-extrabold tracking-[-0.03em]">
+              Our Services
+            </h2>
+            <p className="mt-1 text-xs text-[#667aa0]">
+              Comprehensive healthcare services, designed for your convenience.
+            </p>
+          </div>
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+            {services.map(([title, copy, Icon]) => (
+              <button
+                key={String(title)}
+                onClick={() => notify(`${title} selected.`)}
+                className="group rounded-2xl border border-[#dfedf9] bg-white p-4 text-left shadow-[0_7px_18px_rgb(24_116_183/4%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"
+              >
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-[#fff4df] text-[#f39a1e] group-hover:bg-[#f39a1e] group-hover:text-white">
+                  <Icon size={19} />
+                </span>
+                <h3 className="mt-4 text-[11px] font-extrabold leading-4">
+                  {title}
+                </h3>
+                <p className="mt-1 text-[9px] leading-4 text-[#667aa0]">
+                  {copy}
+                </p>
+              </button>
+            ))}
+          </div>
+          <div className="mt-6 grid items-center gap-7 overflow-hidden rounded-[26px] bg-gradient-to-r from-[#e7f1fc] to-[#f5fbff] p-5 sm:grid-cols-[.55fr_1fr_auto]">
+            <img
+              src="/filipino-doctor-team.png"
+              alt="Medical director"
+              className="mx-auto h-28 w-28 rounded-full object-cover"
+            />
+            <div>
+              <p className="text-sm leading-5 text-[#082b6f]">
+                “Your health matters, and you&apos;re not alone. We&apos;re here
+                to make quality healthcare accessible to everyone, wherever you
+                are.”
+              </p>
+              <strong className="mt-2 block text-[11px]">
+                Dr. Maria Santos
+              </strong>
+              <span className="text-[9px] text-[#667aa0]">
+                Medical Director, Doktor On The Go
+              </span>
+            </div>
+            <a
+              href="/appointment"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f39a1e] px-5 py-3 text-[10px] font-bold text-white"
+            >
+              Book Appointment <ArrowRight size={13} />
+            </a>
+          </div>
+        </div>
+      </section>
 
-      <section id="specialties" className="mx-auto max-w-6xl px-5 py-14 lg:px-6"><div className="flex items-end justify-between gap-4"><div><h2 className="text-2xl font-extrabold tracking-[-0.03em]">Top Specialties</h2><p className="mt-1 text-xs text-[#667aa0]">People have been looking for these specialties.</p></div><button type="button" aria-expanded={showAllSpecialties} aria-controls="specialty-grid" onClick={() => setShowAllSpecialties(!showAllSpecialties)} className="shrink-0 rounded-full bg-[#fff4df] px-4 py-2 text-[10px] font-bold text-[#f39a1e]">{showAllSpecialties ? 'Show fewer specialties' : 'View all specialties'}</button></div><div id="specialty-grid" className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{(showAllSpecialties ? specialties : specialties.slice(0, 12)).map(([title, Icon, tone], index) => <a key={String(title)} href={`/specialists?specialty=${encodeURIComponent(String(title))}`} className="group rounded-2xl border border-[#d5e1f1] bg-white p-4 text-center shadow-[0_7px_18px_rgb(8_43_111/5%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"><span className={'mx-auto grid h-16 w-16 place-items-center overflow-hidden rounded-2xl bg-white ' + tone + ' transition group-hover:scale-105'}>{index < 12 ? <span aria-hidden="true" className="h-full w-full bg-[url('/specialty-icons.png')] bg-[length:400%_300%] bg-no-repeat" style={{ backgroundPosition: ((index % 4) * 33.3333) + '% ' + (Math.floor(index / 4) * 50) + '%' }} /> : <Icon size={36} strokeWidth={1.7} aria-hidden="true" />}</span><span className="mt-3 block min-h-8 text-[10px] font-extrabold leading-4 text-[#082b6f]">{title}</span></a>)}</div></section>
+      <section
+        id="specialties"
+        className="mx-auto max-w-6xl px-5 py-14 lg:px-6"
+      >
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-extrabold tracking-[-0.03em]">
+              Top Specialties
+            </h2>
+            <p className="mt-1 text-xs text-[#667aa0]">
+              People have been looking for these specialties.
+            </p>
+          </div>
+          <button
+            type="button"
+            aria-expanded={showAllSpecialties}
+            aria-controls="specialty-grid"
+            onClick={() => setShowAllSpecialties(!showAllSpecialties)}
+            className="shrink-0 rounded-full bg-[#fff4df] px-4 py-2 text-[10px] font-bold text-[#f39a1e]"
+          >
+            {showAllSpecialties
+              ? 'Show fewer specialties'
+              : 'View all specialties'}
+          </button>
+        </div>
+        <div
+          id="specialty-grid"
+          className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
+        >
+          {(showAllSpecialties ? specialties : specialties.slice(0, 12)).map(
+            ([title, Icon, tone], index) => (
+              <a
+                key={String(title)}
+                href={`/specialists?specialty=${encodeURIComponent(String(title))}`}
+                className="group rounded-2xl border border-[#d5e1f1] bg-white p-4 text-center shadow-[0_7px_18px_rgb(8_43_111/5%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"
+              >
+                <span
+                  className={
+                    'mx-auto grid h-16 w-16 place-items-center overflow-hidden rounded-2xl bg-white ' +
+                    tone +
+                    ' transition group-hover:scale-105'
+                  }
+                >
+                  {index < 12 ? (
+                    <span
+                      aria-hidden="true"
+                      className="h-full w-full bg-[url('/specialty-icons.png')] bg-[length:400%_300%] bg-no-repeat"
+                      style={{
+                        backgroundPosition:
+                          (index % 4) * 33.3333 +
+                          '% ' +
+                          Math.floor(index / 4) * 50 +
+                          '%',
+                      }}
+                    />
+                  ) : (
+                    <Icon size={36} strokeWidth={1.7} aria-hidden="true" />
+                  )}
+                </span>
+                <span className="mt-3 block min-h-8 text-[10px] font-extrabold leading-4 text-[#082b6f]">
+                  {title}
+                </span>
+              </a>
+            ),
+          )}
+        </div>
+      </section>
 
-      <section id="conditions" className="mx-auto max-w-6xl px-5 py-14 lg:px-6"><div className="flex items-end justify-between gap-4"><div><h2 className="text-2xl font-extrabold tracking-[-0.03em]">Common Conditions</h2><p className="mt-1 text-xs text-[#667aa0]">Select a condition to learn about symptoms, care options and when to seek help.</p></div><span className="shrink-0 rounded-full bg-[#fff4df] px-4 py-2 text-[10px] font-bold text-[#a9650c]">{conditionInformation.length} guides</span></div><div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{conditionInformation.map((condition, index) => <ConditionCard key={condition.title} condition={condition} index={index} />)}</div></section>
-      <section id="doctors" tabIndex={-1} aria-label="Doctors" className="scroll-mt-24 mx-auto max-w-6xl px-5 py-14 lg:px-6"><div className="text-center"><p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#f39a1e]">DOTG rates</p><h2 className="mt-2 text-2xl font-extrabold tracking-[-0.03em]">Meet Our Expert Doctors</h2><p className="mt-1 text-xs text-[#667aa0]">Choose a doctor and view consultation, certificate, follow-up, and procedure rates.</p></div><div className="mx-auto mt-6 flex max-w-xl flex-col gap-3 sm:flex-row"><input value={doctorSearch} onChange={(event) => setDoctorSearch(event.target.value)} placeholder="Search by doctor or specialty" aria-label="Search doctors" className="min-w-0 flex-1 rounded-full border border-[#d5e1f1] bg-white px-5 py-3 text-xs outline-none focus:border-[#f39a1e]" /><span aria-live="polite" className="rounded-full bg-[#f7fbff] px-4 py-3 text-center text-[10px] font-bold text-[#667aa0]">{filteredDoctors.length} doctor{filteredDoctors.length === 1 ? '' : 's'}</span></div><div className="mt-7 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{visibleDoctors.map((doctor) => <article key={doctor.name} className="overflow-hidden rounded-2xl border border-[#d5e1f1] bg-white shadow-[0_7px_18px_rgb(24_116_183/4%)]"><div className="flex items-center gap-3 border-b border-[#d5e1f1] bg-[#f7fbff] p-3">{doctor.image ? <img src={doctor.image} alt={doctor.name} loading="lazy" decoding="async" className="h-14 w-14 rounded-xl object-cover" /> : <span aria-hidden="true" className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#e9f1ff] text-[#315cc9]"><UserRound size={28} /></span>}<div className="min-w-0 flex-1"><div className="flex items-start justify-between gap-2"><h3 className="text-sm font-extrabold">{doctor.name}</h3><span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2 py-1 text-[9px] font-bold ${doctor.online ? 'bg-[#e8f8ee] text-[#159447]' : 'bg-[#eef2f7] text-[#8698b2]'}`}><span className={`h-1.5 w-1.5 rounded-full ${doctor.online ? 'animate-pulse bg-[#159447]' : 'bg-[#8698b2]'}`} />{doctor.online ? 'Online now' : 'Offline'}</span></div><p className="mt-1 text-[10px] font-bold text-[#082b6f]">{doctor.specialty}</p></div></div><div className="p-4">{!doctor.rates.length && <p className="py-3 text-xs text-[#667aa0]">Consultation fees not yet available.</p>}<div className="divide-y divide-[#edf2f8]">{doctor.rates.map((rate) => <div key={rate.key} className="flex items-center justify-between gap-3 py-2 text-[10px]"><span className="text-[#667aa0]">{rate.label}</span><strong className="text-right text-[#082b6f]">{rate.display}</strong></div>)}</div><a href={`/appointment?doctor=${encodeURIComponent(doctor.slug)}`} className="mt-3 block w-full rounded-full bg-[#fff4df] px-4 py-2 text-center text-[9px] font-bold text-[#082b6f] hover:bg-[#f39a1e] hover:text-white">{doctor.rates.length ? `Book with ${doctor.name}` : `View ${doctor.name}`}</a></div></article>)}</div>{!filteredDoctors.length && <p className="mt-7 rounded-2xl border border-dashed border-[#b8cbe1] p-8 text-center text-sm text-[#667aa0]">No doctors found. Try another name or specialty.</p>}{filteredDoctors.length > 6 && !doctorSearch.trim() && <div className="mt-7 text-center"><button onClick={() => setShowAllDoctors(!showAllDoctors)} className="rounded-full bg-[#082b6f] px-5 py-3 text-xs font-bold text-white hover:bg-[#f39a1e]">{showAllDoctors ? 'Show fewer doctors' : `View all ${filteredDoctors.length} doctors`}</button></div>}</section>
+      <section id="conditions" className="mx-auto max-w-6xl px-5 py-14 lg:px-6">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-extrabold tracking-[-0.03em]">
+              Common Conditions
+            </h2>
+            <p className="mt-1 text-xs text-[#667aa0]">
+              Select a condition to learn about symptoms, care options and when
+              to seek help.
+            </p>
+          </div>
+          <span className="shrink-0 rounded-full bg-[#fff4df] px-4 py-2 text-[10px] font-bold text-[#a9650c]">
+            {conditionInformation.length} guides
+          </span>
+        </div>
+        <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          {conditionInformation.map((condition, index) => (
+            <ConditionCard
+              key={condition.title}
+              condition={condition}
+              index={index}
+            />
+          ))}
+        </div>
+      </section>
+      <section
+        id="doctors"
+        tabIndex={-1}
+        aria-label="Doctors"
+        className="scroll-mt-24 mx-auto max-w-6xl px-5 py-14 lg:px-6"
+      >
+        <div className="text-center">
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#f39a1e]">
+            DOTG rates
+          </p>
+          <h2 className="mt-2 text-2xl font-extrabold tracking-[-0.03em]">
+            Meet Our Expert Doctors
+          </h2>
+          <p className="mt-1 text-xs text-[#667aa0]">
+            Choose a doctor and view consultation, certificate, follow-up, and
+            procedure rates.
+          </p>
+        </div>
+        <div className="mx-auto mt-6 flex max-w-xl flex-col gap-3 sm:flex-row">
+          <input
+            value={doctorSearch}
+            onChange={(event) => setDoctorSearch(event.target.value)}
+            placeholder="Search by doctor or specialty"
+            aria-label="Search doctors"
+            className="min-w-0 flex-1 rounded-full border border-[#d5e1f1] bg-white px-5 py-3 text-xs outline-none focus:border-[#f39a1e]"
+          />
+          <span
+            aria-live="polite"
+            className="rounded-full bg-[#f7fbff] px-4 py-3 text-center text-[10px] font-bold text-[#667aa0]"
+          >
+            {filteredDoctors.length} doctor
+            {filteredDoctors.length === 1 ? '' : 's'}
+          </span>
+        </div>
+        <div className="mt-7 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {visibleDoctors.map((doctor) => (
+            <article
+              key={doctor.name}
+              className="overflow-hidden rounded-2xl border border-[#d5e1f1] bg-white shadow-[0_7px_18px_rgb(24_116_183/4%)]"
+            >
+              <div className="flex items-center gap-3 border-b border-[#d5e1f1] bg-[#f7fbff] p-3">
+                {doctor.image ? (
+                  <img
+                    src={doctor.image}
+                    alt={doctor.name}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-14 w-14 rounded-xl object-cover"
+                  />
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#e9f1ff] text-[#315cc9]"
+                  >
+                    <UserRound size={28} />
+                  </span>
+                )}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="text-sm font-extrabold">{doctor.name}</h3>
+                    <span
+                      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2 py-1 text-[9px] font-bold ${doctor.online ? 'bg-[#e8f8ee] text-[#159447]' : 'bg-[#eef2f7] text-[#8698b2]'}`}
+                    >
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${doctor.online ? 'animate-pulse bg-[#159447]' : 'bg-[#8698b2]'}`}
+                      />
+                      {doctor.online ? 'Online now' : 'Offline'}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[10px] font-bold text-[#082b6f]">
+                    {doctor.specialty}
+                  </p>
+                </div>
+              </div>
+              <div className="p-4">
+                {!doctor.rates.length && (
+                  <p className="py-3 text-xs text-[#667aa0]">
+                    Consultation fees not yet available.
+                  </p>
+                )}
+                <div className="divide-y divide-[#edf2f8]">
+                  {doctor.rates.map((rate) => (
+                    <div
+                      key={rate.key}
+                      className="flex items-center justify-between gap-3 py-2 text-[10px]"
+                    >
+                      <span className="text-[#667aa0]">{rate.label}</span>
+                      <strong className="text-right text-[#082b6f]">
+                        {rate.display}
+                      </strong>
+                    </div>
+                  ))}
+                </div>
+                <a
+                  href={`/appointment?doctor=${encodeURIComponent(doctor.slug)}`}
+                  className="mt-3 block w-full rounded-full bg-[#fff4df] px-4 py-2 text-center text-[9px] font-bold text-[#082b6f] hover:bg-[#f39a1e] hover:text-white"
+                >
+                  {doctor.rates.length
+                    ? `Book with ${doctor.name}`
+                    : `View ${doctor.name}`}
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+        {!filteredDoctors.length && (
+          <p className="mt-7 rounded-2xl border border-dashed border-[#b8cbe1] p-8 text-center text-sm text-[#667aa0]">
+            No doctors found. Try another name or specialty.
+          </p>
+        )}
+        {filteredDoctors.length > 6 && !doctorSearch.trim() && (
+          <div className="mt-7 text-center">
+            <button
+              onClick={() => setShowAllDoctors(!showAllDoctors)}
+              className="rounded-full bg-[#082b6f] px-5 py-3 text-xs font-bold text-white hover:bg-[#f39a1e]"
+            >
+              {showAllDoctors
+                ? 'Show fewer doctors'
+                : `View all ${filteredDoctors.length} doctors`}
+            </button>
+          </div>
+        )}
+      </section>
 
-      <section className="bg-[#f7fbff] py-14"><div className="mx-auto max-w-6xl px-5 lg:px-6"><div className="text-center"><h2 className="text-2xl font-extrabold tracking-[-0.03em]">What Our Patients Say</h2><p className="mt-1 text-xs text-[#667aa0]">Real stories from real patients who trust Doktor On The Go.</p></div><div className="mt-7 grid gap-4 lg:grid-cols-[1.05fr_2fr]"><div className="rounded-2xl bg-gradient-to-br from-[#e7f1fc] to-white p-5"><strong className="text-4xl">4.9</strong><div className="mt-2 text-sm text-[#f39a1e]">★★★★★</div><span className="text-[10px] text-[#667aa0]">Average Rating</span><div className="mt-6 grid grid-cols-3 border-t border-[#f3d39e] pt-4 text-center"><span><strong className="block text-sm"><a href="https://www.facebook.com/dotgph/followers/" target="_blank" rel="noreferrer" className="hover:underline">298</a>,000+</strong><small className="text-[9px] text-[#667aa0]">Happy Patients</small></span><span><strong className="block text-sm">98%</strong><small className="text-[9px] text-[#667aa0]">Would Recommend</small></span><span><strong className="block text-sm">4.9/5</strong><small className="text-[9px] text-[#667aa0]">Service Rating</small></span></div></div><div className="grid gap-4 md:grid-cols-3">{testimonials.map(([name, quote, date]) => <article key={name} className="rounded-2xl border border-[#d5e1f1] bg-white p-5"><div className="flex items-center gap-2"><span className="grid h-8 w-8 place-items-center rounded-full bg-[#fff4df] text-[#f39a1e]"><UserRound size={14} /></span><div><strong className="block text-[10px]">{name}</strong><span className="text-[9px] text-[#f39a1e]">★★★★★</span></div></div><p className="mt-4 text-[10px] leading-5 text-[#445b7f]">{quote}</p><small className="mt-4 block text-[9px] text-[#8698b2]">{date}</small></article>)}</div></div></div></section>
+      <section className="relative overflow-hidden bg-[#f7fbff] py-14">
+        <img
+          src="/hospital-background.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-[0.10]"
+        />
+        <div className="relative z-10 mx-auto max-w-6xl px-5 lg:px-6">
+          <div className="text-center">
+            <h2 className="text-2xl font-extrabold tracking-[-0.03em]">
+              What Our Patients Say
+            </h2>
+            <p className="mt-1 text-xs text-[#667aa0]">
+              Real stories from real patients who trust Doktor On The Go.
+            </p>
+          </div>
+          <div className="mt-7 grid gap-4 lg:grid-cols-[1.05fr_2fr]">
+            <div className="rounded-2xl bg-gradient-to-br from-[#e7f1fc] to-white p-5">
+              <strong className="text-4xl">4.9</strong>
+              <div className="mt-2 text-sm text-[#f39a1e]">★★★★★</div>
+              <span className="text-[10px] text-[#667aa0]">Average Rating</span>
+              <div className="mt-6 grid grid-cols-3 border-t border-[#f3d39e] pt-4 text-center">
+                <span>
+                  <strong className="block text-sm">
+                    <a
+                      href="https://www.facebook.com/dotgph/followers/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover:underline"
+                    >
+                      298
+                    </a>
+                    ,000+
+                  </strong>
+                  <small className="text-[9px] text-[#667aa0]">
+                    Happy Patients
+                  </small>
+                </span>
+                <span>
+                  <strong className="block text-sm">98%</strong>
+                  <small className="text-[9px] text-[#667aa0]">
+                    Would Recommend
+                  </small>
+                </span>
+                <span>
+                  <strong className="block text-sm">4.9/5</strong>
+                  <small className="text-[9px] text-[#667aa0]">
+                    Service Rating
+                  </small>
+                </span>
+              </div>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {testimonials.map(([name, quote, date]) => (
+                <article
+                  key={name}
+                  className="rounded-2xl border border-[#d5e1f1] bg-white p-5"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="grid h-8 w-8 place-items-center rounded-full bg-[#fff4df] text-[#f39a1e]">
+                      <UserRound size={14} />
+                    </span>
+                    <div>
+                      <strong className="block text-[10px]">{name}</strong>
+                      <span className="text-[9px] text-[#f39a1e]">★★★★★</span>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-[10px] leading-5 text-[#445b7f]">
+                    {quote}
+                  </p>
+                  <small className="mt-4 block text-[9px] text-[#8698b2]">
+                    {date}
+                  </small>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <section id="book" className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-14 lg:grid-cols-[1fr_1fr] lg:px-6"><div><p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#f39a1e]">Doktor On The Go app</p><h2 className="mt-2 text-3xl font-extrabold tracking-[-0.04em]">Your Health at Your Fingertips</h2><p className="mt-3 max-w-md text-xs leading-5 text-[#667aa0]">Manage your healthcare journey with our secure and easy-to-use patient portal. Access your records, appointments, and more — anytime, anywhere.</p><div className="mt-6 grid grid-cols-2 gap-3 text-[10px] font-semibold"><span className="flex items-center gap-2"><Zap size={16} className="text-[#f39a1e]" />Track Appointments</span><span className="flex items-center gap-2"><FileText size={16} className="text-[#f39a1e]" />E-Prescriptions</span><span className="flex items-center gap-2"><LockKeyhole size={16} className="text-[#f39a1e]" />Secure Medical Records</span><span className="flex items-center gap-2"><FileCheck2 size={16} className="text-[#f39a1e]" />Access Documents</span></div><a href="/portal" className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#f39a1e] px-5 py-3 text-[10px] font-bold text-white">Open Patient Portal <ArrowRight size={13} /></a></div><div className="relative flex justify-center gap-3"><div className="h-64 w-32 rotate-[-5deg] rounded-[24px] border-[5px] border-[#092455] bg-[#fff4df] p-2 shadow-xl"><div className="h-full rounded-[17px] bg-white p-2 text-[8px]"><strong className="text-[#f39a1e]">Doktor On The Go</strong><div className="mt-4 rounded-lg bg-[#fff4df] p-2">Good morning,<br /><b>Juan!</b></div><div className="mt-3 space-y-2"><p>▣ My Appointments</p><p>▣ Medical Records</p><p>▣ Prescriptions</p><p>▣ Documents</p></div></div></div><div className="h-64 w-32 rotate-[5deg] rounded-[24px] border-[5px] border-[#092455] bg-[#fff4df] p-2 shadow-xl"><div className="h-full rounded-[17px] bg-white p-2 text-[8px]"><strong className="text-[#f39a1e]">My Appointments</strong><div className="mt-6 rounded-lg bg-[#fff4df] p-2"><b>General Consultation</b><br />Dr. Angela Reyes<br /><span className="text-green-600">Confirmed</span></div><div className="mt-4 rounded-lg bg-[#fff4df] p-2">Medical Certificate<br /><span className="text-green-600">Confirmed</span></div></div></div></div></section>
+      <section
+        id="book"
+        className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-14 lg:grid-cols-[1fr_1fr] lg:px-6"
+      >
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#f39a1e]">
+            Doktor On The Go app
+          </p>
+          <h2 className="mt-2 text-3xl font-extrabold tracking-[-0.04em]">
+            Your Health at Your Fingertips
+          </h2>
+          <p className="mt-3 max-w-md text-xs leading-5 text-[#667aa0]">
+            Manage your healthcare journey with our secure and easy-to-use
+            patient portal. Access your records, appointments, and more —
+            anytime, anywhere.
+          </p>
+          <div className="mt-6 grid grid-cols-2 gap-3 text-[10px] font-semibold">
+            <span className="flex items-center gap-2">
+              <Zap size={16} className="text-[#f39a1e]" />
+              Track Appointments
+            </span>
+            <span className="flex items-center gap-2">
+              <FileText size={16} className="text-[#f39a1e]" />
+              E-Prescriptions
+            </span>
+            <span className="flex items-center gap-2">
+              <LockKeyhole size={16} className="text-[#f39a1e]" />
+              Secure Medical Records
+            </span>
+            <span className="flex items-center gap-2">
+              <FileCheck2 size={16} className="text-[#f39a1e]" />
+              Access Documents
+            </span>
+          </div>
+          <a
+            href="/portal"
+            className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#f39a1e] px-5 py-3 text-[10px] font-bold text-white"
+          >
+            Open Patient Portal <ArrowRight size={13} />
+          </a>
+        </div>
+        <div className="flex justify-center">
+          <img
+            src="/doktor-app-preview.png"
+            alt="Doktor On The Go patient app preview"
+            className="h-auto w-full max-w-[540px] object-contain"
+          />
+        </div>
+      </section>
 
-      <section className="bg-[#f7fbff] py-14"><div className="mx-auto max-w-6xl px-5 lg:px-6"><div className="text-center"><h2 className="text-2xl font-extrabold tracking-[-0.03em]">Health Insights &amp; Medical Updates</h2><p className="mt-1 text-xs text-[#667aa0]">Stay informed with the latest health tips, medical advice, and wellness guides from our doctors.</p></div><div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[['5 Simple Habits for a Healthier You', 'Wellness', '/doctor-miguel.png', 'Filipino male doctor portrait'], ['Nutrition Tips for a Stronger Immune System', 'Nutrition', '/doctor-angela.png', 'Filipino female doctor portrait'], ['Understanding Your Blood Pressure', 'General Health', '/doctor-carlo.png', 'Filipino male doctor portrait'], ['The Importance of Quality Sleep', 'Mental Health', '/doctor-team-hero-71a83648.png', 'Filipino medical team']].map(([title, tag, image, alt]) => <article key={title} className="overflow-hidden rounded-2xl border border-[#d5e1f1] bg-white"><img src={image} alt={alt} className="h-28 w-full object-cover object-top" /><div className="p-4"><p className="text-[9px] font-bold text-[#f39a1e]">{tag}</p><h3 className="mt-2 text-xs font-extrabold leading-4">{title}</h3><p className="mt-3 text-[9px] text-[#8698b2]">March 12, 2024 · 5 min read</p></div></article>)}</div></div></section>
+      <section className="bg-[#f7fbff] py-14">
+        <div className="mx-auto max-w-6xl px-5 lg:px-6">
+          <div className="text-center">
+            <h2 className="text-2xl font-extrabold tracking-[-0.03em]">
+              Health Insights &amp; Medical Updates
+            </h2>
+            <p className="mt-1 text-xs text-[#667aa0]">
+              Stay informed with the latest health tips, medical advice, and
+              wellness guides from our doctors.
+            </p>
+          </div>
+          <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {healthInsights.map(([title, tag, doctor, alt], index) => (
+              <InsightCard
+                key={title}
+                title={title}
+                index={index}
+              >
+                <div className="relative h-28 overflow-hidden bg-[#e7f1fc]">
+                  {index !== 2 && (
+                    <img
+                      src={doctor.image}
+                      alt=""
+                      aria-hidden="true"
+                      className="absolute inset-0 h-full w-full scale-110 object-cover object-center opacity-30 blur-xl"
+                    />
+                  )}
+                  <img
+                    src={doctor.image}
+                    alt={alt}
+                    className={index === 2
+                      ? 'h-full w-full object-cover object-[50%_14%]'
+                      : 'relative mx-auto h-52 w-auto max-w-none'}
+                  />
+                </div>
+                <div className="p-4">
+                  <p className="text-[9px] font-bold text-[#f39a1e]">{tag}</p>
+                  <h3 className="mt-2 text-xs font-extrabold leading-4">
+                    {title}
+                  </h3>
+                  <p className="mt-3 text-[9px] text-[#8698b2]">
+                    Health guide · 2 min read
+                  </p>
+                </div>
+              </InsightCard>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <section id="portal-access" className="bg-[#f7fbff] py-14"><div className="mx-auto max-w-6xl px-5 lg:px-6"><div className="text-center"><p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#f39a1e]">Portal access</p><h2 className="mt-2 text-2xl font-extrabold tracking-[-0.03em]">The right workspace for everyone.</h2><p className="mt-1 text-xs text-[#667aa0]">Choose your secure portal from the homepage.</p></div><div className="mt-7 grid gap-4 md:grid-cols-3"><a href="/portal" className="rounded-2xl border border-[#d5e1f1] bg-white p-5 shadow-[0_7px_18px_rgb(8_43_111/5%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"><HeartPulse className="text-[#f39a1e]" size={21} /><h3 className="mt-4 text-sm font-extrabold">Client Portal</h3><p className="mt-1 text-xs leading-5 text-[#667aa0]">Manage appointments, records, prescriptions, and documents.</p><span className="mt-4 inline-flex text-xs font-bold text-[#f39a1e]">Open portal <ArrowRight size={14} className="ml-1" /></span></a><a href="/doctors" className="rounded-2xl border border-[#d5e1f1] bg-white p-5 shadow-[0_7px_18px_rgb(8_43_111/5%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"><Stethoscope className="text-[#f39a1e]" size={21} /><h3 className="mt-4 text-sm font-extrabold">Doctor Portal</h3><p className="mt-1 text-xs leading-5 text-[#667aa0]">Access schedules, patient queues, and clinical follow-ups.</p><span className="mt-4 inline-flex text-xs font-bold text-[#f39a1e]">Doctor access <ArrowRight size={14} className="ml-1" /></span></a><a href="/admin" className="rounded-2xl border border-[#d5e1f1] bg-white p-5 shadow-[0_7px_18px_rgb(8_43_111/5%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"><ShieldCheck className="text-[#f39a1e]" size={21} /><h3 className="mt-4 text-sm font-extrabold">Admin Portal</h3><p className="mt-1 text-xs leading-5 text-[#667aa0]">Manage services, users, appointments, and platform settings.</p><span className="mt-4 inline-flex text-xs font-bold text-[#f39a1e]">Admin access <ArrowRight size={14} className="ml-1" /></span></a></div></div></section>
-      <footer id="contact" className="bg-[#082b6f] text-white"><div className="mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-6"><div><div className="flex items-center gap-2"><span className="grid h-8 w-8 place-items-center rounded-lg bg-[#f39a1e]"><HeartPulse size={17} /></span><strong className="text-sm">Doktor On The Go</strong></div><p className="mt-4 max-w-xs text-[10px] leading-5 text-[#c8d5ea]">Making quality healthcare accessible to every Filipino, wherever you are.</p></div><div><h3 className="text-[10px] font-bold uppercase tracking-wider text-[#f8be66]">Quick Links</h3><div className="mt-3 grid gap-2 text-[10px] text-[#d5e1f1]"><a href="#top">Home</a><a href="#services">Services</a><a href="#doctors">Doctors</a><a href="#contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div></div><div><h3 className="text-[10px] font-bold uppercase tracking-wider text-[#f8be66]">Our Services</h3><div className="mt-3 grid gap-2 text-[10px] text-[#d5e1f1]"><span>Online Consultation</span><span>Medical Certificates</span><span>Home Service</span><span>Health Clearance</span></div></div><div><h3 className="text-[10px] font-bold uppercase tracking-wider text-[#f8be66]">Get in Touch</h3><div className="mt-3 grid gap-2 text-[10px] text-[#d5e1f1]"><span>☎ (02) 123 4567</span><span>✉ hello@dokonthego.ph</span><span>Mon–Sun, 8:00 AM–8:00 PM</span></div><button onClick={() => notify('Booking started.')} className="mt-4 rounded-full bg-[#f39a1e] px-4 py-2 text-[10px] font-bold">Book Appointment</button></div></div><div className="border-t border-white/15 py-4 text-center text-[9px] text-[#91a6c7]">© 2024 Doktor On The Go. All rights reserved. <span className="ml-3">Healthcare Anywhere, Anytime.</span></div></footer>
+      <section id="portal-access" className="bg-[#f7fbff] py-14">
+        <div className="mx-auto max-w-6xl px-5 lg:px-6">
+          <div className="text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#f39a1e]">
+              Portal access
+            </p>
+            <h2 className="mt-2 text-2xl font-extrabold tracking-[-0.03em]">
+              The right workspace for everyone.
+            </h2>
+            <p className="mt-1 text-xs text-[#667aa0]">
+              Choose your secure portal from the homepage.
+            </p>
+          </div>
+          <div className="mt-7 grid gap-4 md:grid-cols-3">
+            <a
+              href="/portal"
+              className="rounded-2xl border border-[#d5e1f1] bg-white p-5 shadow-[0_7px_18px_rgb(8_43_111/5%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"
+            >
+              <HeartPulse className="text-[#f39a1e]" size={21} />
+              <h3 className="mt-4 text-sm font-extrabold">Client Portal</h3>
+              <p className="mt-1 text-xs leading-5 text-[#667aa0]">
+                Manage appointments, records, prescriptions, and documents.
+              </p>
+              <span className="mt-4 inline-flex text-xs font-bold text-[#f39a1e]">
+                Open portal <ArrowRight size={14} className="ml-1" />
+              </span>
+            </a>
+            <a
+              href="/doctors"
+              className="rounded-2xl border border-[#d5e1f1] bg-white p-5 shadow-[0_7px_18px_rgb(8_43_111/5%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"
+            >
+              <Stethoscope className="text-[#f39a1e]" size={21} />
+              <h3 className="mt-4 text-sm font-extrabold">Doctor Portal</h3>
+              <p className="mt-1 text-xs leading-5 text-[#667aa0]">
+                Access schedules, patient queues, and clinical follow-ups.
+              </p>
+              <span className="mt-4 inline-flex text-xs font-bold text-[#f39a1e]">
+                Doctor access <ArrowRight size={14} className="ml-1" />
+              </span>
+            </a>
+            <a
+              href="/admin"
+              className="rounded-2xl border border-[#d5e1f1] bg-white p-5 shadow-[0_7px_18px_rgb(8_43_111/5%)] transition hover:-translate-y-1 hover:border-[#f4b85a]"
+            >
+              <ShieldCheck className="text-[#f39a1e]" size={21} />
+              <h3 className="mt-4 text-sm font-extrabold">Admin Portal</h3>
+              <p className="mt-1 text-xs leading-5 text-[#667aa0]">
+                Manage services, users, appointments, and platform settings.
+              </p>
+              <span className="mt-4 inline-flex text-xs font-bold text-[#f39a1e]">
+                Admin access <ArrowRight size={14} className="ml-1" />
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+      <footer id="contact" className="bg-[#082b6f] text-white">
+        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-6">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#f39a1e]">
+                <HeartPulse size={17} />
+              </span>
+              <strong className="text-sm">Doktor On The Go</strong>
+            </div>
+            <p className="mt-4 max-w-xs text-[10px] leading-5 text-[#c8d5ea]">
+              Making quality healthcare accessible to every Filipino, wherever
+              you are.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-[10px] font-bold uppercase tracking-wider text-[#f8be66]">
+              Quick Links
+            </h3>
+            <div className="mt-3 grid gap-2 text-[10px] text-[#d5e1f1]">
+              <a href="#top">Home</a>
+              <a href="#services">Services</a>
+              <a href="#doctors">Doctors</a>
+              <a href="#contact">Contact</a>
+              <a href="/privacy">Privacy</a>
+              <a href="/terms">Terms</a>
+              <a href="/cookies">Cookies</a>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-[10px] font-bold uppercase tracking-wider text-[#f8be66]">
+              Our Services
+            </h3>
+            <div className="mt-3 grid gap-2 text-[10px] text-[#d5e1f1]">
+              <span>Online Consultation</span>
+              <span>Medical Certificates</span>
+              <span>Home Service</span>
+              <span>Health Clearance</span>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-[10px] font-bold uppercase tracking-wider text-[#f8be66]">
+              Get in Touch
+            </h3>
+            <div className="mt-3 grid gap-2 text-[10px] text-[#d5e1f1]">
+              <span>☎ (02) 123 4567</span>
+              <span>✉ hello@dokonthego.ph</span>
+              <span>Mon–Sun, 8:00 AM–8:00 PM</span>
+            </div>
+            <button
+              onClick={() => notify('Booking started.')}
+              className="mt-4 rounded-full bg-[#f39a1e] px-4 py-2 text-[10px] font-bold"
+            >
+              Book Appointment
+            </button>
+          </div>
+        </div>
+        <div className="border-t border-white/15 py-4 text-center text-[9px] text-[#91a6c7]">
+          © 2024 Doktor On The Go. All rights reserved.{' '}
+          <span className="ml-3">Healthcare Anywhere, Anytime.</span>
+        </div>
+      </footer>
     </main>
   );
 }
